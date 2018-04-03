@@ -81,6 +81,9 @@
     self.executing = YES;
     self.task.state = SCDownloadStatus_running;
     
+//     此处为了方便演示，每个operation 都创建了一个session，实际开发中最好在downloader中只创建一次，让dataTask关联上SCDownloadTask来处理回调。
+//     原因： 为了处理后台下载， 详情 @" https://developer.apple.com/documentation/foundation/url_loading_system/downloading_files_in_the_background?language=objc "
+    
     NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]
                                                           delegate:self
                                                      delegateQueue:nil];
