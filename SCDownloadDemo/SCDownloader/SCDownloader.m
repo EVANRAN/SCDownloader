@@ -72,6 +72,10 @@ static SCDownloader * _downloader = nil;
     
 }
 
+- (NSInteger)opertionCount{
+    return self.operationQueue.operationCount;
+}
+
 + (void)setMaxConcurrentDownloadCount:(NSInteger)count{
     
     SCDownloader * downloader = [self shared];

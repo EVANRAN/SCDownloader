@@ -18,6 +18,9 @@ static NSString * const KSCDownloadNeedRefreshNoti = @"KSCDownloadNeedRefreshNot
 /**任务List*/
 @property (nonatomic, strong, readonly) NSMutableArray * tasks;
 
+/**下载opertion count*/
+@property (nonatomic, assign, readonly) NSInteger opertionCount;
+
 /**设置同时下载的最大值*/
 + (void)setMaxConcurrentDownloadCount:(NSInteger)count;
 

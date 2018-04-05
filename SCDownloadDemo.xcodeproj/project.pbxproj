@@ -21,6 +21,7 @@
 		141C35B4206FC17C00E9121F /* SCOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 141C35B0206FC17C00E9121F /* SCOperation.m */; };
 		141C35B8206FC1EA00E9121F /* SCCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 141C35B6206FC1E900E9121F /* SCCell.m */; };
 		141C35B9206FC1EA00E9121F /* SCCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 141C35B7206FC1E900E9121F /* SCCell.xib */; };
+		14AF679120766AA800BDC806 /* SCDownloaderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 14AF679020766AA800BDC806 /* SCDownloaderTests.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,6 +68,7 @@
 		141C35B5206FC1E900E9121F /* SCCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCCell.h; sourceTree = "<group>"; };
 		141C35B6206FC1E900E9121F /* SCCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCCell.m; sourceTree = "<group>"; };
 		141C35B7206FC1E900E9121F /* SCCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SCCell.xib; sourceTree = "<group>"; };
+		14AF679020766AA800BDC806 /* SCDownloaderTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SCDownloaderTests.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -138,6 +140,7 @@
 			isa = PBXGroup;
 			children = (
 				141C3590206FC15A00E9121F /* SCDownloadDemoTests.m */,
+				14AF679020766AA800BDC806 /* SCDownloaderTests.m */,
 				141C3592206FC15A00E9121F /* Info.plist */,
 			);
 			path = SCDownloadDemoTests;
@@ -315,6 +318,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				14AF679120766AA800BDC806 /* SCDownloaderTests.m in Sources */,
 				141C3591206FC15A00E9121F /* SCDownloadDemoTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
