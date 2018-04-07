@@ -11,9 +11,8 @@
 
 @interface SCDownloader ()
 
-// 所有url 对应的任务
+/**所有url 对应的任务*/
 @property (nonatomic, strong) NSMutableDictionary * taskDict;
-
 /**所有文件大小缓存路径*/
 @property (nonatomic, copy) NSString * totalFileSizeCachePath;
 /**所有文件大小存储dict*/
@@ -68,8 +67,7 @@ static SCDownloader * _downloader = nil;
     }
     
     _operationQueue = [[NSOperationQueue alloc] init];
-    _operationQueue.maxConcurrentOperationCount = 1;
-    
+    _operationQueue.maxConcurrentOperationCount = 1;    
 }
 
 - (NSInteger)opertionCount{
@@ -77,7 +75,6 @@ static SCDownloader * _downloader = nil;
 }
 
 + (void)setMaxConcurrentDownloadCount:(NSInteger)count{
-    
     SCDownloader * downloader = [self shared];
     downloader.operationQueue.maxConcurrentOperationCount = count;
 }
@@ -120,12 +117,23 @@ static SCDownloader * _downloader = nil;
 {
     __weak typeof(self) weakSelf = self;
     
-    //1. 先检查是否下载过（task 已经改变了状态）
+    //check url
+    if (![task.url isKindOfClass:[NSString class]] || !task.url.length) {
+        task.state = SCDownloadStatus_failed;
+        [self.tasks addObject:task];
+        return;
+    }
+    //1. check local file total length
+    NSUInteger expectedSize = [self getFileTotalSizeByUrl:task.url];
+    if (expectedSize) {
+        task.expectedSize = expectedSize;
+        if (task.progress >= 1.0)   task.state = SCDownloadStatus_completed;
+    }
     
-    //2. 检查是否正在下载
+    //2. check is downloading
     SCDownloadTask * downloadingTask = [self getDownloaderTaskWithMD5:task.md5];
     
-    //3. 没有就加入到 map
+    //3. add to download
     if (!downloadingTask) {
         downloadingTask = task;
         NSString * md5 = downloadingTask.md5;
@@ -136,8 +144,8 @@ static SCDownloader * _downloader = nil;
         [self.taskDict setObject:task forKey:task.md5];
         [self.tasks addObject:task];
     }
-    
-    //4. 检查是否有task所对应的Operation
+
+    //4. check task  associate's Operation
     SCOperation * op = [self.operations valueForKey:downloadingTask.md5];
     if (!op && downloadingTask.state != SCDownloadStatus_completed) {
         [self createSCOperationWithSCTask:downloadingTask priority:0];
@@ -181,7 +189,7 @@ static SCDownloader * _downloader = nil;
         task.state = SCDownloadStatus_suspend;
         [op sc_suspend];
     }
-    [self.operations removeObjectForKey:task.md5];
+    if (op) [self.operations removeObjectForKey:task.md5];
 }
 
 
@@ -228,7 +236,7 @@ static SCDownloader * _downloader = nil;
     NSString * md5 = task.md5;
     [self suspendDownloadWithSCTask:task];
     [self.tasks removeObject:task];
-    [self.taskDict removeObjectForKey:md5];
+    if (md5) [self.taskDict removeObjectForKey:md5];
     [[NSNotificationCenter defaultCenter] postNotificationName:KSCDownloadNeedRefreshNoti object:nil];
 }
 

@@ -40,24 +40,22 @@
     [self layoutProgress:task];
     
     __weak typeof(self) weakSelf = self;
+    [task setStateBlock:^(SCDownloadStatus status) {
     
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [task setStateBlock:^(SCDownloadStatus status) {
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        if (strongSelf) {
+             [strongSelf layoutStatus:status];
+        }
+    }];
+    
+    [task setProgressBlock:^(NSInteger receivedSize, NSInteger expectedSize, CGFloat progress) {
         
-            __strong typeof(weakSelf) strongSelf = weakSelf;
-            if (strongSelf) {
-                 [strongSelf layoutStatus:status];
-            }
-        }];
-        
-        [task setProgressBlock:^(NSInteger receivedSize, NSInteger expectedSize, CGFloat progress) {
-            
-            __strong typeof(weakSelf) strongSelf = weakSelf;
-            if (strongSelf) {
-                [strongSelf layoutProgress:progress receivedSize:receivedSize expectedSize:expectedSize];
-            }
-        }];
-    });
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        if (strongSelf) {
+            [strongSelf layoutProgress:progress receivedSize:receivedSize expectedSize:expectedSize];
+        }
+    }];
+
 }
 
 
@@ -163,11 +161,5 @@
 }
 
 
-
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
-}
 
 @end

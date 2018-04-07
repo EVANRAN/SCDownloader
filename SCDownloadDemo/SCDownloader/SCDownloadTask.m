@@ -68,21 +68,17 @@
     return _fileName;
 }
 
-- (void)config
+- (instancetype)initWithFilename:(NSString *)filename urlString:(NSString *)urlString
 {
-    _md5 = _url.md5;
-    _downloadedSize = [self.path fileSize];
-    _state = SCDownloadStatus_waitting;
-    _expectedSize = [[SCDownloader shared] getFileTotalSizeByUrl:_url];
-    if (_expectedSize) {
-        _progress = _downloadedSize * 1.0 / _expectedSize;
-    } else {
-        _progress = 0;
+    self = [super init];
+    if (self) {
+        _url = urlString;
+        _fileName = filename;
+        _md5 = _url.md5;
+        _downloadedSize = [self.path fileSize];
+        _state = SCDownloadStatus_waitting;
     }
-    
-    if (_progress >= 1.0) {
-        _state = SCDownloadStatus_completed;
-    }
+    return self;
 }
 
 - (void)setState:(SCDownloadStatus)state
@@ -108,7 +104,6 @@
 
 - (void)setExpectedSize:(NSUInteger)expectedSize{
     _expectedSize = expectedSize;
-    [[SCDownloader shared] saveUrl:_url totalLength:expectedSize];
     self.progress = _downloadedSize * 1.0 / _expectedSize;
 }
 

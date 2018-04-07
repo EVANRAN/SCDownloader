@@ -42,15 +42,12 @@
     NSArray * content = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
     
     for (NSDictionary * item in content) {
-        SCDownloadTask * task = [[SCDownloadTask alloc] init];
-        task.fileName = [[[item valueForKey:@"title"] stringByReplacingOccurrencesOfString:@" / " withString:@"-"] stringByAppendingString:@".mp4"];
-        task.url = [item valueForKey:@"shdUrl"];
-        [task config];
+        NSString * filename = [[[item valueForKey:@"title"] stringByReplacingOccurrencesOfString:@" / " withString:@"-"] stringByAppendingString:@".mp4"];
+        NSString * urlString = [item valueForKey:@"shdUrl"];
+        SCDownloadTask * task = [[SCDownloadTask alloc] initWithFilename:filename urlString:urlString];
         [[SCDownloader shared] startDownloadWithWithSCTask:task];
     }
-    
     [self refresh];
-    
 }
 
 - (IBAction)pause:(id)sender {

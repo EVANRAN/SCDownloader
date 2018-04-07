@@ -74,7 +74,6 @@ typedef void(^SCDownloadCompleteBlock)(void);
 /**任务完成回调*/
 @property (nonatomic, copy) SCDownloadCompleteBlock completeBlock;
 
-/**配置*/
-- (void)config;
+- (instancetype)initWithFilename:(NSString *)filename urlString:(NSString *)urlString;
 
 @end

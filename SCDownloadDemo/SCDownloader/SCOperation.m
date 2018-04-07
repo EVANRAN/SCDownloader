@@ -7,6 +7,7 @@
 //
 
 #import "SCOperation.h"
+#import "SCDownloader.h"
 
 @interface  SCOperation () <NSURLSessionDelegate>
 
@@ -124,7 +125,7 @@
         } else {
             _task.expectedSize = totalLength + _task.downloadedSize;
         }
-        
+         [[SCDownloader shared] saveUrl:_task.url totalLength:_task.expectedSize];
     }
 
     completionHandler(NSURLSessionResponseAllow);
